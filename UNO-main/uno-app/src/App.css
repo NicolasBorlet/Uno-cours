@@ -1,0 +1,464 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+html {
+  font-family: sans-serif;
+  background: #161616;
+}
+
+#main {
+  margin-top: 10px;
+  /*max-height: 100vh;
+  //overflow: hidden;*/
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  max-height: 100%;
+}
+
+#playField {
+  grid-area: 2 / 3 / 3 / 4;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#playField #deck,
+#playField #discard {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+#playField #deck .card {
+  cursor: pointer;
+}
+
+#playField #deck .card:last-child:hover {
+  transform: rotate(10deg);
+}
+
+#playField #deck .card:nth-last-child(3),
+#playField #discard .card:nth-last-child(3) {
+  display: flex;
+  position: absolute;
+  top: 10%;
+}
+
+#playField #deck .card:nth-last-child(2),
+#playField #discard .card:nth-last-child(2) {
+  display: flex;
+  position: absolute;
+  top: 5%;
+}
+
+#playField #deck .card:last-child,
+#playField #discard .card:last-child {
+  display: flex;
+}
+
+#playField #deck .card,
+#playField #discard .card {
+  display: none;
+}
+
+#topHand,
+#leftHand,
+#rightHand,
+#playerhand {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  z-index: 1;
+}
+
+#topHand,
+#leftHand,
+#rightHand {
+  overflow: hidden;
+}
+
+#topHand .card::after,
+#leftHand .card::after,
+#rightHand .card::after {
+  font-size: 40px;
+}
+
+#topHand {
+  grid-area: 1 / 2 / 1 / 5;
+  gap: 10px;
+}
+
+#topHand .card {
+  width: 100px;
+  height: 150px;
+  margin: 0 -15px;
+}
+
+#leftHand {
+  grid-area: 1 / 1 / 4 / 1;
+  flex-direction: column;
+  align-items: center;
+}
+
+#rightHand {
+  grid-area: 1 / 5 / 4 / 5;
+  flex-direction: column;
+  align-items: center;
+}
+
+#leftHand .card,
+#rightHand .card {
+  width: 150px;
+  height: 100px;
+  margin: -20px 0;
+}
+
+#playerhand {
+  gap: 30px;
+  grid-area: 4 / 1 / 5 / 6;
+}
+
+.card {
+  position: relative;
+  width: 130px;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  border-radius: 15px 10px;
+  font-weight: bolder;
+  transition: all .3s;
+  overflow: hidden;
+  box-shadow: 0 0 10px #00000050;
+  background: white;
+  z-index: 1;
+}
+
+#playerhand .card {
+  cursor: pointer;
+  margin-right: -50px;
+  margin-left: -25px;
+}
+
+#playerhand.small .card {
+  margin-right: -75px;
+  margin-left: -50px;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: -1;
+  border-radius: 10px;
+  transition: all .3s;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  z-index: -2;
+  border-radius: 15px 10px;
+  transition: all .3s;
+}
+
+#playerhand .card:hover:not(.back) {
+  transform: scale(1.03);
+  margin-left: 35px;
+  margin-right: 10px;
+  box-shadow: 0 0 20px #ffffff35;
+}
+
+#playerhand.small .card:hover:not(.back) {
+  margin-left: 60px;
+  margin-right: 35px;
+}
+
+#playerHand .card:hover:not(.back)::after {
+  transform: translate(-50%, -50%);
+}
+
+.back {
+  cursor: default;
+
+}
+
+.back::before {
+  background: #363636;
+}
+
+.back::after {
+  content: "UNO";
+  position: absolute;
+  z-index: -2;
+  inset: 10px;
+  top: 10px;
+  left: 10px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: none;
+  width: fit-content;
+  height: fit-content;
+  top: 50%;
+  left: 50%;
+  color: white;
+}
+
+.green {
+  color: #0a9c0a;
+}
+
+.green::before {
+  background: #0a9c0a;
+}
+
+#palyerHand .green:hover::before {
+  background: rgb(5, 79, 5);
+}
+
+.blue {
+  color: #3d3dc4;
+}
+
+.blue::before {
+  background: #3d3dc4;
+}
+
+#palyerHand .blue:hover::before {
+  background: rgb(36, 36, 115);
+}
+
+.red {
+  color: red;
+}
+
+.red::before {
+  background: red;
+}
+
+#palyerHand .red:hover::before {
+  background: rgb(211, 1, 1);
+}
+
+.yellow {
+  color: #dbdb00;
+}
+
+.yellow::before {
+  background: #dbdb00;
+}
+
+#palyerHand .yellow:hover::before {
+  background: #bebe01;
+}
+
+#uno {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+#uno .uno-button {
+  position: relative;
+  width: 200px;
+  padding: 10px 15px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1;
+  background: none;
+  overflow: hidden;
+}
+
+#uno .uno-button::before {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background: linear-gradient(160deg, rgba(255, 255, 0, .6), rgba(255, 0, 0, 0) 70.71%),
+      linear-gradient(217deg, rgba(255, 0, 0, .8), rgba(255, 0, 0, 0) 70.71%),
+      linear-gradient(127deg, rgba(0, 255, 0, .8), rgba(0, 255, 0, 0) 70.71%),
+      linear-gradient(336deg, rgba(0, 0, 255, .8), rgba(0, 0, 255, 0) 70.71%);
+  transition: all .3s;
+}
+
+#uno .uno-button:hover::before {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+#chrono {
+  color: white;
+  font-size: 30px;
+  padding: 10px 15px;
+  background-color: #363636;
+  border-radius: 10px;
+  height: fit-content;
+  margin: auto 0;
+}
+
+#roomCode {
+  grid-area: 3 / 3 / 4 / 4;
+  color: white;
+  z-index: 100;
+  font-size: 50px;
+  margin: auto;
+}
+
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #f1f1f1;
+  --text-color: #333;
+  --background-color: #f9f9f9;
+  --button-hover-color: #45a049;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+li button {
+  background-color: #007BFF;
+}
+
+li button:hover {
+  background-color: #0056b3;
+}
